@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xxx.book.model.dao.BookReturnMapper">
+  <resultMap id="BaseResultMap" type="com.xxx.book.model.pojo.BookReturn">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="bookid" jdbcType="INTEGER" property="bookid" />
+    <result column="returntime" jdbcType="TIMESTAMP" property="returntime" />
+    <result column="isovertime" jdbcType="TINYINT" property="isovertime" />
+    <result column="borrowid" jdbcType="INTEGER" property="borrowid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, bookid, returntime, isovertime, borrowid
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from bookreturn
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from bookreturn
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xxx.book.model.pojo.BookReturn">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into bookreturn (bookid, returntime, isovertime, 
+      borrowid)
+    values (#{bookid,jdbcType=INTEGER}, #{returntime,jdbcType=TIMESTAMP}, #{isovertime,jdbcType=TINYINT}, 
+      #{borrowid,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xxx.book.model.pojo.BookReturn">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into bookreturn
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="bookid != null">
+        bookid,
+      </if>
+      <if test="returntime != null">
+        returntime,
+      </if>
+      <if test="isovertime != null">
+        isovertime,
+      </if>
+      <if test="borrowid != null">
+        borrowid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="bookid != null">
+        #{bookid,jdbcType=INTEGER},
+      </if>
+      <if test="returntime != null">
+        #{returntime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isovertime != null">
+        #{isovertime,jdbcType=TINYINT},
+      </if>
+      <if test="borrowid != null">
+        #{borrowid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xxx.book.model.pojo.BookReturn">
+    update bookreturn
+    <set>
+      <if test="bookid != null">
+        bookid = #{bookid,jdbcType=INTEGER},
+      </if>
+      <if test="returntime != null">
+        returntime = #{returntime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isovertime != null">
+        isovertime = #{isovertime,jdbcType=TINYINT},
+      </if>
+      <if test="borrowid != null">
+        borrowid = #{borrowid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xxx.book.model.pojo.BookReturn">
+    update bookreturn
+    set bookid = #{bookid,jdbcType=INTEGER},
+      returntime = #{returntime,jdbcType=TIMESTAMP},
+      isovertime = #{isovertime,jdbcType=TINYINT},
+      borrowid = #{borrowid,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xxx.book.model.dao.BookLoseMapper">
+  <resultMap id="BaseResultMap" type="com.xxx.book.model.pojo.BookLose">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="bookid" jdbcType="INTEGER" property="bookid" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="isfind" jdbcType="TINYINT" property="isfind" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, bookid, createtime, isfind
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from booklose
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from booklose
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xxx.book.model.pojo.BookLose">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into booklose (bookid, createtime, isfind
+      )
+    values (#{bookid,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP}, #{isfind,jdbcType=TINYINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xxx.book.model.pojo.BookLose">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into booklose
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="bookid != null">
+        bookid,
+      </if>
+      <if test="createtime != null">
+        createtime,
+      </if>
+      <if test="isfind != null">
+        isfind,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="bookid != null">
+        #{bookid,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isfind != null">
+        #{isfind,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xxx.book.model.pojo.BookLose">
+    update booklose
+    <set>
+      <if test="bookid != null">
+        bookid = #{bookid,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null">
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isfind != null">
+        isfind = #{isfind,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xxx.book.model.pojo.BookLose">
+    update booklose
+    set bookid = #{bookid,jdbcType=INTEGER},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      isfind = #{isfind,jdbcType=TINYINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xxx.book.model.dao.BookEntityMapper">
+  <resultMap id="BaseResultMap" type="com.xxx.book.model.pojo.BookEntity">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="isbn" jdbcType="VARCHAR" property="isbn" />
+    <result column="isborrow" jdbcType="TINYINT" property="isborrow" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, isbn, isborrow
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from book_entity
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from book_entity
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xxx.book.model.pojo.BookEntity">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into book_entity (isbn, isborrow)
+    values (#{isbn,jdbcType=VARCHAR}, #{isborrow,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xxx.book.model.pojo.BookEntity">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into book_entity
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="isbn != null">
+        isbn,
+      </if>
+      <if test="isborrow != null">
+        isborrow,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="isbn != null">
+        #{isbn,jdbcType=VARCHAR},
+      </if>
+      <if test="isborrow != null">
+        #{isborrow,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xxx.book.model.pojo.BookEntity">
+    update book_entity
+    <set>
+      <if test="isbn != null">
+        isbn = #{isbn,jdbcType=VARCHAR},
+      </if>
+      <if test="isborrow != null">
+        isborrow = #{isborrow,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xxx.book.model.pojo.BookEntity">
+    update book_entity
+    set isbn = #{isbn,jdbcType=VARCHAR},
+      isborrow = #{isborrow,jdbcType=TINYINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
